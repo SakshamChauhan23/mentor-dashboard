@@ -547,57 +547,52 @@ function StudentCard({ name, course, progress, email, onViewProfile }: {
     onViewProfile: () => void
 }) {
     return (
+import styles from './mentor.module.css'
+
+    // ... existing imports
+
+    // ... inside StudentCard
+    <div className={styles.studentCard}
+        onClick={onViewProfile}
+    >
         <div style={{
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-lg)',
-            padding: '1.25rem',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-            '&:hover': {
-                borderColor: 'var(--color-primary)',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-            }
-        }}
-            onClick={onViewProfile}
-        >
-            <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: 600,
-                fontSize: '1.2rem',
-                marginBottom: '1rem'
-            }}>
-                {name.split(' ').map(n => n[0]).join('')}
-            </div>
-
-            <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.25rem' }}>{name}</h4>
-            <p style={{ fontSize: '0.875rem', opacity: 0.7, marginBottom: '1rem' }}>{course}</p>
-
-            <div style={{ marginBottom: '0.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-                    <span>Progress</span>
-                    <span style={{ fontWeight: 600 }}>{progress}%</span>
-                </div>
-                <ProgressBar value={progress} />
-            </div>
-
-            <button
-                className="btn"
-                style={{ width: '100%', marginTop: '0.75rem', padding: '0.5rem', fontSize: '0.875rem', border: '1px solid var(--border)' }}
-                onClick={(e) => {
-                    e.stopPropagation()
-                    onViewProfile()
-                }}
-            >
-                View Profile
-            </button>
+            width: '48px',
+            height: '48px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--color-primary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontWeight: 600,
+            fontSize: '1.2rem',
+            marginBottom: '1rem'
+        }}>
+            {name.split(' ').map(n => n[0]).join('')}
         </div>
+
+        <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.25rem' }}>{name}</h4>
+        <p style={{ fontSize: '0.875rem', opacity: 0.7, marginBottom: '1rem' }}>{course}</p>
+
+        <div style={{ marginBottom: '0.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+                <span>Progress</span>
+                <span style={{ fontWeight: 600 }}>{progress}%</span>
+            </div>
+            <ProgressBar value={progress} />
+        </div>
+
+        <button
+            className="btn"
+            style={{ width: '100%', marginTop: '0.75rem', padding: '0.5rem', fontSize: '0.875rem', border: '1px solid var(--border)' }}
+            onClick={(e) => {
+                e.stopPropagation()
+                onViewProfile()
+            }}
+        >
+            View Profile
+        </button>
+    </div>
     )
 }
 
