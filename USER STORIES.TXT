@@ -1,0 +1,389 @@
+# 🧩 EPIC 1: Role-Based Authentication & Access Control
+
+### 🔹 Summary
+
+This epic ensures users can securely log in and access only the dashboard and features relevant to their role (Admin, Student, Mentor).
+
+---
+
+### USER STORY 1.1
+
+**As a user**, I want to log in to the platform so that I can access my dashboard.
+
+**Acceptance Criteria**
+
+* User can log in using valid credentials
+* Invalid credentials show an error message
+* Successful login creates an authenticated session
+* User remains logged in until logout or session expiry
+
+---
+
+### USER STORY 1.2
+
+**As a user**, I want to be redirected to my role-specific dashboard so that I land on the correct experience.
+
+**Acceptance Criteria**
+
+* Admin is redirected to Admin Dashboard
+* Student is redirected to Student Dashboard
+* Mentor is redirected to Mentor Dashboard
+* Manual URL access to other dashboards is restricted
+
+---
+
+### USER STORY 1.3
+
+**As an admin**, I want role-based access enforced so that users only see features relevant to them.
+
+**Acceptance Criteria**
+
+* Students cannot access admin or mentor features
+* Mentors cannot access admin features
+* Admin has access to all dashboards
+* Backend APIs enforce role permissions
+
+---
+
+# 🧩 EPIC 2: Admin Dashboard
+
+### 🔹 Summary
+
+This epic enables admins to oversee users, mentoring sessions, courses, assessments, availability, and notifications from a central dashboard.
+
+---
+
+### USER STORY 2.1
+
+**As an admin**, I want to see key platform metrics so that I can quickly understand system activity.
+
+**Acceptance Criteria**
+
+* Dashboard shows:
+
+  * Total students
+  * Total mentors
+  * Sessions today
+  * Sessions this week
+  * Sessions completed
+  * Upcoming assessments
+* Each metric is clickable
+* Clicking opens a detailed list view
+* Dashboard loads within 2 seconds
+
+---
+
+### USER STORY 2.2
+
+**As an admin**, I want to manage students so that I can track learning and mentoring progress.
+
+**Acceptance Criteria**
+
+* Admin can view student list
+* Student profile shows:
+
+  * Personal details
+  * Enrolled courses
+  * Course progress
+  * Assessment history
+  * Past mentoring sessions
+* Admin can enable or disable student access
+
+---
+
+### USER STORY 2.3
+
+**As an admin**, I want to manage mentors so that I can control mentor quality and availability.
+
+**Acceptance Criteria**
+
+* Admin can view mentor list
+* Mentor profile shows:
+
+  * Expertise areas
+  * Experience summary
+  * Availability slots
+  * Sessions conducted
+* Admin can enable or disable mentor access
+
+---
+
+### USER STORY 2.4
+
+**As an admin**, I want to manage mentor availability so that scheduling conflicts are avoided.
+
+**Acceptance Criteria**
+
+* Admin can view mentor calendars
+* Admin can block or unblock slots
+* Admin can override availability (holidays/emergencies)
+* System prevents double booking
+
+---
+
+### USER STORY 2.5
+
+**As an admin**, I want to manage courses and assessments so that learning is structured.
+
+**Acceptance Criteria**
+
+* Admin can create/edit/delete courses
+* Admin can create assessments:
+
+  * Baseline
+  * Advanced
+  * Final
+* Admin can assign courses to student cohorts
+
+---
+
+### USER STORY 2.6
+
+**As an admin**, I want to view all mentoring sessions so that I have full platform visibility.
+
+**Acceptance Criteria**
+
+* Admin can view all sessions
+* Filters available:
+
+  * Student
+  * Mentor
+  * Date range
+* Admin can cancel or reschedule sessions
+* Admin can export session data as CSV
+
+---
+
+### USER STORY 2.7
+
+**As an admin**, I want to configure notifications so that users receive timely updates.
+
+**Acceptance Criteria**
+
+* Admin can configure:
+
+  * Session confirmations
+  * Session reminders (24 hours)
+  * Assessment alerts
+  * Missed session alerts
+* Configuration applies system-wide
+
+---
+
+# 🧩 EPIC 3: Student Dashboard
+
+### 🔹 Summary
+
+This epic covers the student learning experience — tracking progress, booking mentor sessions, and viewing session history.
+
+---
+
+### USER STORY 3.1
+
+**As a student**, I want to see my learning progress so that I know where I stand.
+
+**Acceptance Criteria**
+
+* Show enrolled courses
+* Show completion percentage
+* Show upcoming assessments
+* Show past assessment scores
+
+---
+
+### USER STORY 3.2
+
+**As a student**, I want to view notifications so that I stay informed.
+
+**Acceptance Criteria**
+
+* Notifications include:
+
+  * Session confirmations
+  * Session reminders
+  * Assessment alerts
+* Latest notifications appear first
+
+---
+
+### USER STORY 3.3
+
+**As a student**, I want to browse mentors so that I can choose the right one.
+
+**Acceptance Criteria**
+
+* Mentor cards show:
+
+  * Name
+  * Expertise
+  * Experience summary
+  * Available slots
+* Filters:
+
+  * Expertise
+  * Availability
+  * Course relevance
+
+---
+
+### USER STORY 3.4
+
+**As a student**, I want to book a mentor session so that I can get personalized guidance.
+
+**Acceptance Criteria**
+
+* Student selects mentor
+* Student selects date and time
+* Student selects session purpose:
+
+  * Concept clarification
+  * Assessment prep
+  * Career guidance
+  * Project help
+* Confirmation screen shown before booking
+* Booking success message displayed
+* Session appears in upcoming sessions
+* Notifications sent to student and mentor
+
+---
+
+### USER STORY 3.5
+
+**As a student**, I want to view my past and upcoming sessions so that I can track mentoring history.
+
+**Acceptance Criteria**
+
+* Upcoming sessions show mentor name, date, time, purpose
+* Past sessions show mentor feedback
+* Session detail view accessible
+
+---
+
+# 🧩 EPIC 4: Mentor Dashboard
+
+### 🔹 Summary
+
+This epic enables mentors to manage availability, view session details, access student context, and submit post-session feedback.
+
+---
+
+### USER STORY 4.1
+
+**As a mentor**, I want to see my upcoming sessions so that I can prepare in advance.
+
+**Acceptance Criteria**
+
+* Dashboard shows today’s sessions
+* Dashboard shows upcoming sessions
+* Notifications for new bookings and cancellations
+
+---
+
+### USER STORY 4.2
+
+**As a mentor**, I want to view student profiles so that I understand their learning context.
+
+**Acceptance Criteria**
+
+* Mentor can open student profile from session card
+* Profile shows:
+
+  * Course progress
+  * Assessment scores
+  * Past feedback
+
+---
+
+### USER STORY 4.3
+
+**As a mentor**, I want to manage my availability so that students can book sessions accordingly.
+
+**Acceptance Criteria**
+
+* Mentor can add availability slots
+* Mentor can remove slots
+* Mentor can set recurring availability
+* Double booking is prevented
+
+---
+
+### USER STORY 4.4
+
+**As a mentor**, I want to submit feedback after sessions so that students know next steps.
+
+**Acceptance Criteria**
+
+* Mentor submits:
+
+  * Session summary
+  * Action items
+  * Readiness rating
+* Feedback visible to student
+* Session marked as completed
+
+---
+
+# 🧩 EPIC 5: Notifications System
+
+### 🔹 Summary
+
+This epic ensures timely communication between students, mentors, and admins throughout the mentoring lifecycle.
+
+---
+
+### USER STORY 5.1
+
+**As a user**, I want to receive session booking notifications so that I am aware of updates.
+
+**Acceptance Criteria**
+
+* Notification sent on session booking
+* Notification sent on session cancellation
+* Sent to both mentor and student
+
+---
+
+### USER STORY 5.2
+
+**As a user**, I want to receive session reminders so that I don’t miss sessions.
+
+**Acceptance Criteria**
+
+* Reminder sent 24 hours before session
+* Sent to mentor and student
+
+---
+
+### USER STORY 5.3
+
+**As a student**, I want to be notified when feedback is submitted so that I can review it.
+
+**Acceptance Criteria**
+
+* Notification triggered after mentor submits feedback
+* Notification links to session detail page
+
+---
+
+### USER STORY 5.4
+
+**As a student**, I want to receive assessment alerts so that I prepare in advance.
+
+**Acceptance Criteria**
+
+* Notifications sent for upcoming assessments
+* Timing controlled by admin configuration
+
+---
+
+### USER STORY 5.5
+
+**As an admin**, I want to be alerted about missed sessions so that corrective action can be taken.
+
+**Acceptance Criteria**
+
+* Missed session is flagged automatically
+* Admin receives notification
+* Session status updated as “Missed”
+
+---

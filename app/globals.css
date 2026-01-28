@@ -1,42 +1,165 @@
 :root {
+  /* Brand Colors */
+  --color-primary: #6366f1;
+  /* Indigo 500 */
+  --color-primary-hover: #4f46e5;
+  /* Indigo 600 */
+  --color-secondary: #ec4899;
+  /* Pink 500 */
+  --color-accent: #8b5cf6;
+  /* Violet 500 */
+
+  /* Surface & Background */
   --background: #ffffff;
-  --foreground: #171717;
-}
+  --foreground: #0f172a;
+  /* Slate 900 */
+  --primary: #2C5F2D;
+  --primary-light: #E8F5E9;
+  --primary-dark: #1D4620;
+  --primary-foreground: #FFFFFF;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  --secondary: #EB7E2E;
+  --secondary-light: #FDEEE3;
+  --secondary-dark: #C66418;
+  --secondary-foreground: #FFFFFF;
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  --accent: #12EA7B;
+  --accent-light: #E0FFF0;
+  --accent-dark: #0DB862;
+  --accent-foreground: #1A1A1A;
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Semantic Colors */
+  --success: #7CB342;
+  --warning: #F59E0B;
+  --destructive: #D32F2F;
+  --info: #1976D2;
+
+  /* Neutrals & Surfaces */
+  --background: #FAF9F7;
+  --background-secondary: #FFFFFF;
+  --surface: #FFFFFF;
+  --border: #E3E1DD;
+  --muted: #F0EEEB;
+
+  /* Text Colors */
+  --foreground: #21302B;
+  /* Text Primary */
+  --text-secondary: #505952;
+  --text-tertiary: #7B857F;
+  --text-muted: #A3ABA7;
+
+  /* Radii & Shadows */
+  --radius-sm: 0.5rem;
+  /* 8px */
+  --radius-md: 0.75rem;
+  /* 12px */
+  --radius-lg: 1rem;
+  /* 16px */
+  --radius-xl: 1.5rem;
+  /* 24px */
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-card: 0px 4px 20px rgba(0, 0, 0, 0.03);
+
+  /* Typography */
+  --font-heading: 'Plein', sans-serif;
+  --font-body: 'Switzer', sans-serif;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--background);
+  color: var(--foreground);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--foreground);
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 a {
-  color: inherit;
+  color: var(--primary);
   text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+a:hover {
+  color: var(--primary-dark);
+}
+
+/* Layout Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Component: Card */
+.card {
+  background-color: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Component: Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  outline: none;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 4px 12px rgba(44, 95, 45, 0.2);
+}
+
+.btn-primary:hover {
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  outline: none;
+  font-family: var(--font-main);
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
 }
