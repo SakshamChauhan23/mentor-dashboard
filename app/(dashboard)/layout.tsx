@@ -1,5 +1,3 @@
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
 import { Sidebar } from '@/components/Sidebar'
 import { Search, Bell, Mail } from 'lucide-react'
 
@@ -8,17 +6,6 @@ export default async function DashboardLayout({
 }: {
     children: React.ReactNode
 }) {
-    const supabase = await createClient()
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
-
-    // TEMPORARY: Disabled for development
-    // if (!user) {
-    //     redirect('/login')
-    // }
-
     return (
         <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--background)' }}>
             <Sidebar />

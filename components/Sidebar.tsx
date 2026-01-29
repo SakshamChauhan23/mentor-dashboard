@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, BookOpen, Calendar, Settings, LogOut, Shield } from 'lucide-react'
+import { LayoutDashboard, Users, BookOpen, Calendar, Settings, Shield } from 'lucide-react'
 
 const navItems = [
     { name: 'Student Dashboard', href: '/student', icon: LayoutDashboard },
@@ -100,29 +100,6 @@ export function Sidebar() {
                     <Settings size={20} />
                     Settings
                 </button>
-                <form action="/auth/signout" method="post" style={{ marginTop: '0.5rem' }}>
-                    <button
-                        type="submit"
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.75rem',
-                            padding: '0.75rem 1rem',
-                            width: '100%',
-                            border: 'none',
-                            background: 'transparent',
-                            color: 'var(--destructive)',
-                            fontSize: '0.95rem',
-                            fontWeight: 500,
-                            cursor: 'pointer',
-                            borderRadius: 'var(--radius-md)',
-                            textAlign: 'left'
-                        }}
-                    >
-                        <LogOut size={20} />
-                        Logout
-                    </button>
-                </form>
             </div>
         </aside>
     )
