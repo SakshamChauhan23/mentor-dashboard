@@ -7,122 +7,53 @@ export default async function DashboardLayout({
     children: React.ReactNode
 }) {
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--background)' }}>
+        <div className="flex min-h-screen bg-background">
             <Sidebar />
 
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div className="flex-1 flex flex-col">
                 {/* Top Header */}
-                <header style={{
-                    height: '80px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0 2rem',
-                    borderBottom: '1px solid transparent', // Kept generic for now, can be specific if needed
-                }}>
+                <header className="h-20 flex items-center justify-between px-8 border-b border-transparent">
                     {/* Search Bar */}
-                    <div id="search-bar" style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        backgroundColor: 'var(--surface)',
-                        padding: '0.625rem 1rem',
-                        borderRadius: 'var(--radius-full)', // Rounded pill shape
-                        width: '320px',
-                        boxShadow: 'var(--shadow-sm)',
-                        border: '1px solid var(--border)'
-                    }}>
-                        <Search size={18} color="var(--text-tertiary)" />
+                    <div
+                        id="search-bar"
+                        className="flex items-center bg-surface px-4 py-[0.625rem] rounded-full w-80 shadow-sm border border-border"
+                    >
+                        <Search size={18} className="text-muted-foreground shrink-0" />
                         <input
                             type="text"
                             placeholder="Search task..."
-                            style={{
-                                border: 'none',
-                                background: 'transparent',
-                                outline: 'none',
-                                padding: '0 0.75rem',
-                                color: 'var(--foreground)',
-                                width: '100%',
-                                fontSize: '0.9rem'
-                            }}
+                            className="border-none bg-transparent outline-none px-3 text-foreground w-full text-[0.9rem]"
                         />
-                        <div style={{
-                            fontSize: '0.75rem',
-                            color: 'var(--text-tertiary)',
-                            border: '1px solid var(--border)',
-                            padding: '0.1rem 0.4rem',
-                            borderRadius: '4px'
-                        }}>
+                        <div className="text-xs text-muted-foreground border border-border px-1 py-0.5 rounded">
                             ⌘F
                         </div>
                     </div>
 
                     {/* Right Actions */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                        <div style={{ display: 'flex', gap: '1rem' }}>
-                            <button style={{
-                                width: '40px',
-                                height: '40px',
-                                borderRadius: '50%',
-                                border: '1px solid var(--border)',
-                                backgroundColor: 'var(--surface)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                cursor: 'pointer',
-                                color: 'var(--text-secondary)'
-                            }}>
+                    <div className="flex items-center gap-6">
+                        <div className="flex gap-4">
+                            <button className="w-10 h-10 rounded-full border border-border bg-surface flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground transition-colors">
                                 <Mail size={18} />
                             </button>
-                            <button style={{
-                                width: '40px',
-                                height: '40px',
-                                borderRadius: '50%',
-                                border: '1px solid var(--border)',
-                                backgroundColor: 'var(--surface)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                cursor: 'pointer',
-                                color: 'var(--text-secondary)',
-                                position: 'relative'
-                            }}>
+                            <button className="relative w-10 h-10 rounded-full border border-border bg-surface flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground transition-colors">
                                 <Bell size={18} />
-                                <span style={{
-                                    position: 'absolute',
-                                    top: '8px',
-                                    right: '10px',
-                                    width: '8px',
-                                    height: '8px',
-                                    backgroundColor: 'var(--destructive)',
-                                    borderRadius: '50%',
-                                    border: '1px solid var(--surface)'
-                                }}></span>
+                                <span className="absolute top-2 right-2.5 w-2 h-2 bg-destructive rounded-full border border-surface" />
                             </button>
                         </div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            <div style={{
-                                width: '40px',
-                                height: '40px',
-                                borderRadius: '50%',
-                                backgroundColor: 'var(--secondary)', // Using brand secondary
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white',
-                                fontWeight: 700
-                            }}>
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-white font-bold">
                                 TM
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <span style={{ fontSize: '0.95rem', fontWeight: 600 }}>Totok Michael</span>
-                                <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>tmichael20@mail.com</span>
+                            <div className="flex flex-col">
+                                <span className="text-[0.95rem] font-semibold">Totok Michael</span>
+                                <span className="text-[0.8rem] text-muted-foreground">tmichael20@mail.com</span>
                             </div>
                         </div>
                     </div>
                 </header>
 
-                <main style={{ flex: 1, padding: '1rem 2rem 2rem 2rem', overflowY: 'auto' }}>
+                <main className="flex-1 p-4 px-8 pb-8 overflow-y-auto">
                     {children}
                 </main>
             </div>

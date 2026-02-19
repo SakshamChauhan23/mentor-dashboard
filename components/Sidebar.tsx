@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, BookOpen, Calendar, Settings, Shield } from 'lucide-react'
+import { LayoutDashboard, Users, Shield, Settings } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const navItems = [
     { name: 'Student Dashboard', href: '/student', icon: LayoutDashboard },
@@ -14,60 +15,32 @@ export function Sidebar() {
     const pathname = usePathname()
 
     return (
-        <aside style={{
-            width: '260px',
-            backgroundColor: 'var(--surface)',
-            borderRight: '1px solid var(--border)',
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100vh',
-            position: 'sticky',
-            top: 0,
-            padding: '1.5rem',
-            flexShrink: 0
-        }}>
-            <div style={{ marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <div style={{
-                    width: '40px',
-                    height: '40px',
-                    backgroundColor: 'var(--primary-light)',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--primary)',
-                    fontWeight: 'bold',
-                    fontSize: '1.5rem'
-                }}>
+        <aside className="w-[260px] bg-surface border-r border-border flex flex-col h-screen sticky top-0 p-6 shrink-0">
+            <div className="mb-10 flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary-light rounded-[10px] flex items-center justify-center text-primary font-bold text-2xl">
                     Z
                 </div>
-                <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--foreground)' }}>Zuvy</span>
+                <span className="text-2xl font-bold text-foreground">Zuvy</span>
             </div>
 
-            <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-tertiary)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <nav className="flex-1 flex flex-col gap-2">
+                <div className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-[0.05em]">
                     Menu
                 </div>
                 {navItems.map((item) => {
                     const isActive = pathname.startsWith(item.href)
-                    const itemId = `menu-${item.name.split(' ')[0].toLowerCase()}` // e.g., menu-student
+                    const itemId = `menu-${item.name.split(' ')[0].toLowerCase()}`
                     return (
                         <Link
                             id={itemId}
                             key={item.href}
                             href={item.href}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.75rem',
-                                padding: '0.75rem 1rem',
-                                borderRadius: 'var(--radius-md)',
-                                color: isActive ? 'var(--primary-dark)' : 'var(--text-secondary)',
-                                backgroundColor: isActive ? 'var(--primary-light)' : 'transparent',
-                                fontWeight: isActive ? 600 : 500,
-                                transition: 'all 0.2s',
-                                textDecoration: 'none'
-                            }}
+                            className={cn(
+                                'flex items-center gap-3 px-4 py-3 rounded-md font-medium transition-all duration-200 no-underline text-sm',
+                                isActive
+                                    ? 'text-primary-dark bg-primary-light font-semibold'
+                                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                            )}
                         >
                             <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
                             {item.name}
@@ -76,27 +49,11 @@ export function Sidebar() {
                 })}
             </nav>
 
-            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-tertiary)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <div className="border-t border-border pt-6">
+                <div className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-[0.05em]">
                     General
                 </div>
-                <button
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.75rem',
-                        padding: '0.75rem 1rem',
-                        width: '100%',
-                        border: 'none',
-                        background: 'transparent',
-                        color: 'var(--text-secondary)',
-                        fontSize: '0.95rem',
-                        fontWeight: 500,
-                        cursor: 'pointer',
-                        borderRadius: 'var(--radius-md)',
-                        textAlign: 'left'
-                    }}
-                >
+                <button className="flex items-center gap-3 px-4 py-3 w-full border-none bg-transparent text-muted-foreground text-[0.95rem] font-medium cursor-pointer rounded-md text-left hover:bg-muted hover:text-foreground transition-all duration-200">
                     <Settings size={20} />
                     Settings
                 </button>
