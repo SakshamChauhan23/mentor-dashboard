@@ -22,6 +22,7 @@ export default function CoursePage() {
     const [sessionPurpose, setSessionPurpose] = useState('')
     const [bookingConfirmed, setBookingConfirmed] = useState(false)
     const [sessionTab, setSessionTab] = useState<'upcoming' | 'past'>('upcoming')
+    const [whatsNextTab, setWhatsNextTab] = useState<'upcoming' | 'past'>('upcoming')
 
     const handleBookSession = (mentorName: string, mentorExpertise: string) => {
         setSelectedMentor({ name: mentorName, expertise: mentorExpertise })
@@ -146,20 +147,33 @@ export default function CoursePage() {
                     {/* What's Next */}
                     <div className="card">
                         <h3 className="text-lg font-semibold mb-4">What&apos;s Next?</h3>
-                        <div className="flex flex-col items-center text-center py-6 gap-3">
-                            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-                                <Users size={28} className="text-muted-foreground" />
-                            </div>
-                            <div>
-                                <p className="font-medium text-foreground">No Upcoming Events</p>
-                                <p className="text-sm text-muted-foreground mt-1">
-                                    Stay tuned! Your upcoming assignments, live sessions, and deadlines will appear here to help you stay on track.
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                                <CheckCircle size={14} />
-                                Check back later for updates
-                            </div>
+
+                        {/* Tabs */}
+                        <div className="flex gap-6 border-b border-border mb-4">
+                            {(['upcoming', 'past'] as const).map(tab => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setWhatsNextTab(tab)}
+                                    className={`bg-transparent border-none py-2 cursor-pointer capitalize text-sm transition-all border-b-2 -mb-px ${whatsNextTab === tab ? 'font-semibold border-primary text-primary' : 'font-normal border-transparent text-muted-foreground hover:text-foreground'}`}
+                                >
+                                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Session items */}
+                        <div className="flex flex-col gap-3">
+                            {whatsNextTab === 'upcoming' ? (
+                                <>
+                                    <CompactSessionItem initials="DSL" name="Dr. Sarah Lee" expertise="Machine Learning" date="Oct 24, 2023" time="2:00 PM" purpose="Concept Clarification" onJoin={() => setIsVideoModalOpen(true)} />
+                                    <CompactSessionItem initials="JC" name="James Carter" expertise="Frontend Architecture" date="Oct 25, 2023" time="10:00 AM" purpose="Career Guidance" onJoin={() => setIsVideoModalOpen(true)} />
+                                </>
+                            ) : (
+                                <>
+                                    <CompactSessionItem initials="EC" name="Emily Chen" expertise="Product Design" date="Oct 20, 2023" time="3:00 PM" purpose="Project Help" status="completed" />
+                                    <CompactSessionItem initials="DSL" name="Dr. Sarah Lee" expertise="Machine Learning" date="Oct 15, 2023" time="1:00 PM" purpose="Assessment Preparation" status="completed" />
+                                </>
+                            )}
                         </div>
                     </div>
 
@@ -468,6 +482,43 @@ function MentorCard({ name, expertise, experience, availableSlots, rating, onBoo
                     Book Session
                 </button>
             </div>
+        </div>
+    )
+}
+
+function CompactSessionItem({ initials, name, expertise, date, time, purpose, status = 'scheduled', onJoin }: {
+    initials: string; name: string; expertise: string; date: string; time: string; purpose: string;
+    status?: 'scheduled' | 'completed'; onJoin?: () => void
+}) {
+    return (
+        <div className="border border-border rounded-xl p-4 flex flex-col gap-3">
+            <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold text-sm shrink-0">
+                        {initials}
+                    </div>
+                    <div>
+                        <p className="text-sm font-semibold text-foreground leading-tight">{name}</p>
+                        <p className="text-xs text-muted-foreground">{expertise}</p>
+                    </div>
+                </div>
+                <span className={`text-xs px-2.5 py-1 rounded-full font-medium shrink-0 ${status === 'scheduled' ? 'bg-info/10 text-info' : 'bg-success/10 text-success'}`}>
+                    {status === 'scheduled' ? 'Scheduled' : 'Completed'}
+                </span>
+            </div>
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1"><Calendar size={12} />{date}</span>
+                <span className="flex items-center gap-1"><Clock size={12} />{time}</span>
+            </div>
+            <p className="text-xs text-foreground/80"><span className="font-semibold">Purpose:</span> {purpose}</p>
+            {status === 'scheduled' && onJoin && (
+                <button
+                    onClick={onJoin}
+                    className="btn btn-primary inline-flex items-center gap-1.5 py-1.5 px-3 text-xs w-fit rounded-full"
+                >
+                    <Video size={12} /> Join Meeting
+                </button>
+            )}
         </div>
     )
 }
