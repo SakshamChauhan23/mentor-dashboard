@@ -7,7 +7,7 @@ import {
     PenLine, ClipboardList, ClipboardCheck, Radio,
     GripVertical, Trash2, X, Search, ChevronRight,
     Bold, Italic, Underline, Strikethrough, List,
-    ListOrdered, Code, Link2, Image, Table2
+    ListOrdered, Code, Link2, Image, Table2, Calendar
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
@@ -379,6 +379,7 @@ function AssessmentView({
     const [search, setSearch] = useState('')
     const [topic, setTopic] = useState('All Topics')
     const [difficulty, setDifficulty] = useState('Any Difficulty')
+    const [isCreateAssessmentOpen, setIsCreateAssessmentOpen] = useState(false)
 
     const filtered = problems.filter(p => {
         const matchSearch = p.title.toLowerCase().includes(search.toLowerCase())
@@ -425,6 +426,14 @@ function AssessmentView({
                             {t.label} ({t.id === 'coding' ? selectedIds.length : 0})
                         </button>
                     ))}
+                    {/* AI Adaptive Assessment — opens modal */}
+                    <button
+                        onClick={() => setIsCreateAssessmentOpen(true)}
+                        className="px-5 py-3 text-sm font-medium border-b-2 -mb-px border-transparent text-primary/80 hover:text-primary hover:border-primary/40 transition-colors bg-transparent border-x-0 border-t-0 cursor-pointer flex items-center gap-1.5"
+                    >
+                        <span className="text-base leading-none">✦</span>
+                        Create AI Adaptive Assessment
+                    </button>
                 </div>
             </div>
 
@@ -554,6 +563,249 @@ function AssessmentView({
                                 ))}
                             </div>
                         )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Create AI Adaptive Assessment Modal */}
+            {isCreateAssessmentOpen && (
+                <CreateAssessmentModal onClose={() => setIsCreateAssessmentOpen(false)} />
+            )}
+        </div>
+    )
+}
+
+// ─── Create Assessment Modal ──────────────────────────────────────────────────
+
+const TOPICS = ['Arrays', 'Strings', 'Dynamic Programming', 'Trees', 'Graphs', 'Sorting', 'Recursion', 'Linked Lists']
+const BOOTCAMPS = ['Placement Bootcamp', 'Web Dev Bootcamp', 'Data Science Bootcamp', 'DSA Bootcamp']
+
+function CreateAssessmentModal({ onClose }: { onClose: () => void }) {
+    const [bootcamp, setBootcamp] = useState('')
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [selectedTopic, setSelectedTopic] = useState('')
+    const [questionCount, setQuestionCount] = useState(1)
+    const [topicsList, setTopicsList] = useState<{ topic: string; count: number }[]>([])
+    const [created, setCreated] = useState(false)
+
+    const totalQuestions = topicsList.reduce((sum, t) => sum + t.count, 0)
+
+    const handleAddTopic = () => {
+        if (!selectedTopic) return
+        const existing = topicsList.find(t => t.topic === selectedTopic)
+        if (existing) {
+            setTopicsList(prev => prev.map(t => t.topic === selectedTopic ? { ...t, count: t.count + questionCount } : t))
+        } else {
+            setTopicsList(prev => [...prev, { topic: selectedTopic, count: questionCount }])
+        }
+        setSelectedTopic('')
+        setQuestionCount(1)
+    }
+
+    const handleRemoveTopic = (topic: string) => {
+        setTopicsList(prev => prev.filter(t => t.topic !== topic))
+    }
+
+    if (created) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+                <div className="relative bg-surface rounded-2xl shadow-xl w-[520px] p-10 z-10 text-center">
+                    <div className="text-5xl mb-4">✅</div>
+                    <h3 className="text-xl font-semibold mb-2">Assessment Created!</h3>
+                    <p className="text-muted-foreground mb-6">Your AI Adaptive Assessment has been configured successfully.</p>
+                    <button className="btn btn-primary" onClick={onClose}>Done</button>
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+            <div className="relative bg-[#f5f4f0] rounded-2xl shadow-xl w-[560px] max-h-[90vh] overflow-y-auto z-10">
+                {/* Modal Header */}
+                <div className="flex items-start justify-between px-8 pt-8 pb-6">
+                    <div>
+                        <h2 className="text-xl font-bold text-foreground">Create Assessment</h2>
+                        <p className="text-sm text-muted-foreground mt-1">Configure the assessment settings for bootcamp</p>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        className="text-muted-foreground hover:text-foreground bg-transparent border-none cursor-pointer p-1 transition-colors"
+                    >
+                        <X size={20} />
+                    </button>
+                </div>
+
+                {/* Form Body */}
+                <div className="px-8 pb-8 flex flex-col gap-6">
+                    {/* Bootcamp */}
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">
+                            Bootcamp <span className="text-destructive">*</span>
+                        </label>
+                        <select
+                            value={bootcamp}
+                            onChange={e => setBootcamp(e.target.value)}
+                            className={`w-full px-4 py-3 rounded-lg border-2 bg-surface text-foreground text-sm outline-none transition-colors cursor-pointer ${bootcamp ? 'border-primary' : 'border-primary'}`}
+                        >
+                            <option value="">Select a bootcamp...</option>
+                            {BOOTCAMPS.map(b => <option key={b} value={b}>{b}</option>)}
+                        </select>
+                    </div>
+
+                    {/* Assessment Title */}
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">
+                            Assessment Title <span className="text-destructive">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+                            placeholder="e.g., JavaScript Fundamentals Assessment"
+                            className="w-full px-4 py-3 rounded-lg border border-border bg-surface text-foreground text-sm outline-none focus:border-primary transition-colors placeholder:text-muted-foreground"
+                        />
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">Description</label>
+                        <textarea
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
+                            placeholder="Brief description of what this assessment covers..."
+                            rows={4}
+                            className="w-full px-4 py-3 rounded-lg border border-border bg-surface text-foreground text-sm outline-none focus:border-primary transition-colors resize-y placeholder:text-muted-foreground"
+                        />
+                    </div>
+
+                    {/* Start Date */}
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">
+                            Start Date <span className="text-destructive">*</span>
+                        </label>
+                        <div className="relative">
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                                <Calendar size={16} />
+                            </div>
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={e => setStartDate(e.target.value)}
+                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-surface text-foreground text-sm outline-none focus:border-primary transition-colors"
+                            />
+                        </div>
+                    </div>
+
+                    {/* End Date */}
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">
+                            End Date <span className="text-destructive">*</span>
+                        </label>
+                        <div className="relative">
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                                <Calendar size={16} />
+                            </div>
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={e => setEndDate(e.target.value)}
+                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-surface text-foreground text-sm outline-none focus:border-primary transition-colors"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Topics with Question Count */}
+                    <div className="bg-[#c8c5bb]/40 rounded-xl p-5">
+                        <label className="block text-sm font-semibold mb-3">
+                            Topics with Question Count <span className="text-destructive">*</span>
+                        </label>
+                        <div className="flex gap-2 mb-3">
+                            <select
+                                value={selectedTopic}
+                                onChange={e => setSelectedTopic(e.target.value)}
+                                className="flex-1 px-4 py-2.5 rounded-lg border border-border bg-surface text-foreground text-sm outline-none focus:border-primary cursor-pointer"
+                            >
+                                <option value="">Select a topic...</option>
+                                {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
+                            </select>
+                            <input
+                                type="number"
+                                min={1}
+                                value={questionCount}
+                                onChange={e => setQuestionCount(Math.max(1, parseInt(e.target.value) || 1))}
+                                className="w-20 px-3 py-2.5 rounded-lg border border-border bg-surface text-foreground text-sm outline-none focus:border-primary text-center"
+                            />
+                            <button
+                                onClick={handleAddTopic}
+                                className="btn btn-primary flex items-center gap-1.5 px-4 py-2.5 text-sm whitespace-nowrap"
+                            >
+                                <Plus size={14} /> Add
+                            </button>
+                        </div>
+
+                        {/* Added topics list */}
+                        {topicsList.length > 0 && (
+                            <div className="flex flex-col gap-2 mb-3">
+                                {topicsList.map(t => (
+                                    <div key={t.topic} className="flex items-center justify-between bg-surface rounded-lg px-3 py-2 text-sm">
+                                        <span className="font-medium">{t.topic}</span>
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-muted-foreground">{t.count} question{t.count !== 1 ? 's' : ''}</span>
+                                            <button
+                                                onClick={() => handleRemoveTopic(t.topic)}
+                                                className="text-muted-foreground hover:text-destructive bg-transparent border-none cursor-pointer p-0 transition-colors"
+                                            >
+                                                <X size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {topicsList.length === 0 && (
+                            <p className="text-sm text-muted-foreground italic">
+                                No topics selected. Add at least one topic with question count.
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Assessment Summary */}
+                    <div className="bg-[#c8c5bb]/40 rounded-xl p-5">
+                        <h4 className="text-sm font-semibold mb-4">Assessment Summary</h4>
+                        <div className="flex flex-col gap-3 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Topics:</span>
+                                <span className="font-semibold">{topicsList.length} selected</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Total Questions:</span>
+                                <span className="font-semibold">{totalQuestions}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Footer Actions */}
+                    <div className="flex justify-end gap-4 pt-2">
+                        <button
+                            onClick={onClose}
+                            className="btn border-none bg-transparent text-foreground font-semibold cursor-pointer hover:text-muted-foreground transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={() => setCreated(true)}
+                            disabled={!bootcamp || !title || !startDate || !endDate || topicsList.length === 0}
+                            className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Create Assessment
+                        </button>
                     </div>
                 </div>
             </div>
