@@ -2,13 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Shield, Settings } from 'lucide-react'
+import { LayoutDashboard, Users, Shield, Settings, FlaskConical } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
     { name: 'Student Dashboard', href: '/student', icon: LayoutDashboard },
     { name: 'Mentor Dashboard', href: '/mentor', icon: Users },
     { name: 'Admin Dashboard', href: '/admin', icon: Shield },
+    { name: 'Zuvy Eval', href: '/eval', icon: FlaskConical },
 ]
 
 export function Sidebar() {
